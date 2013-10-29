@@ -13,8 +13,7 @@ import aima.core.agent.Action;
 public class SlidersBoard  {
 
 	private static LinkedHashSet<Action> allActions;
-	private static Vector<Action> allActionsVector = new Vector<Action>(); // used by the random
-																																					// generator
+	private static Vector<Action> allActionsVector;//Used by the random generator
 	private int[] state;
 	/**
 	 * Size of the current puzzles, this should be an instance variable :C
@@ -25,6 +24,7 @@ public class SlidersBoard  {
 	public static void initActions(int length) {
 		setSIZE((int) Math.sqrt(length));
 		allActions = new LinkedHashSet<Action>();
+		allActionsVector = new Vector<Action>();
 		for (int i = 0; i < getSIZE(); i++) {
 			allActions.add(new SlidersAction(SlidersActionType.UP, i));
 			allActions.add(new SlidersAction(SlidersActionType.DOWN, i));
@@ -126,9 +126,11 @@ public class SlidersBoard  {
 	@Override
 	public int hashCode() {
 		int result = 0;
-		for (int i = 0; i < getSIZE(); i++) {
-			result = SIZE * result + state[i] - 1;
-		}
+		int cellCount = state.length;
+		
+		for (int i : state)
+			result = cellCount * result + i - 1;
+		
 		return result;
 	}
 
